@@ -49,10 +49,22 @@
         "description": "Admin user name for the virtual machines"
       }
     },
-    "adminPassword": {
-      "type": "securestring",
+    "sshKeyData": {
+      "type": "string",
       "metadata": {
-        "description": "Admin password for the virtual machines"
+        "description": "Public Key for ssh-user"
+      }
+    },
+    "vnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Vnet Name"
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet Name"
       }
     }
   },
@@ -64,8 +76,8 @@
     "opsCenterTemplateUrl": "[concat(variables('templateUrl'), 'opsCenter.json')]",
     "location": "[resourcegroup().location]",
     "uniqueString": "[uniqueString(resourceGroup().id, deployment().name)]",
-    "vnetName": "vnet",
-    "subnetName": "subnet",
+    "vnetName": "[parameters('vnetName')]",
+    "subnetName": "[parameters('subnetName')]",
     "osSettings": {
       "imageReference": {
         "publisher": "Canonical",
@@ -88,14 +100,14 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.0.0.0/16"
+            "10.3.0.0/16"
           ]
         },
         "subnets": [
           {
             "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "10.0.0.0/24"
+              "addressPrefix": "10.3.200.0/24"
             }
           }
         ]
@@ -124,8 +136,8 @@
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
           },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
+          "sshKeyData": {
+            "value": "[parameters('sshKeyData')]"
           },
           "nodeCount": {
             "value": "[parameters('nodeCount')]"
@@ -171,8 +183,8 @@
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
           },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
+          "sshKeyData": {
+            "value": "[parameters('sshKeyData')]"
           },
           "osSettings": {
             "value": "[variables('osSettings')]"

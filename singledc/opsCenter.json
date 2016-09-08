@@ -11,8 +11,8 @@
     "adminUsername": {
       "type": "string"
     },
-    "adminPassword": {
-      "type": "securestring"
+    "sshKeyData": {
+      "type": "string"
     },
     "osSettings": {
       "type": "object"
@@ -25,6 +25,7 @@
     }
   },
   "variables": {
+    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "storageAccountName": "[concat('opscenter', parameters('uniqueString'))]",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
@@ -92,7 +93,19 @@
         "osProfile": {
           "computerName": "opscenter",
           "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
+          
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": true,
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[variables('sshKeyPath')]",
+                  "keyData": "[parameters('sshKeyData')]"
+                }
+              ]
+            }
+          }
+
         },
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",

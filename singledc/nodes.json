@@ -11,8 +11,8 @@
     "adminUsername": {
       "type": "string"
     },
-    "adminPassword": {
-      "type": "securestring"
+    "sshKeyData": {
+      "type": "string"
     },
     "nodeCount": {
       "type": "int"
@@ -34,6 +34,7 @@
     }
   },
   "variables": {
+    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "vmName": "[concat(parameters('namespace'), 'vm')]",
     "storageAccountName": "[concat(parameters('namespace'), parameters('uniqueString'))]",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
@@ -128,7 +129,19 @@
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), 'vm', copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
+          
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": true,
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[variables('sshKeyPath')]",
+                  "keyData": "[parameters('sshKeyData')]"
+                }
+              ]
+            }
+          }
+
         },
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",

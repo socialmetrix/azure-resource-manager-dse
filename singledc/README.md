@@ -22,3 +22,12 @@ Once the Azure VMs, virtual network and storage are setup, the template installs
 The template also sets up a node to run DataStax OpsCenter.  The script opscenter.sh installs OpsCenter and connects to the cluster by calling the OpsCenter REST API.
 
 On completion, OpsCenter will be accessible on port 8888 of the public IP address of the OpsCenter node.
+
+
+----
+
+
+1. Create a Resource Group:
+```bash
+azure group create --tags 'billing=quantum' datastax eastus2
+```
