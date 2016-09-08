@@ -98,35 +98,10 @@
     }
   },
   "resources": [
-    // {
-    //   "apiVersion": "2015-06-15",
-    //   "type": "Microsoft.Network/virtualNetworks",
-    //   "name": "[variables('vnetName')]",
-    //   "location": "[variables('location')]",
-
-    //   "properties": {
-    //     "addressSpace": {
-    //       "addressPrefixes": [
-    //         "10.3.0.0/16"
-    //       ]
-    //     },
-    //     "subnets": [
-    //       {
-    //         "name": "[variables('subnetName')]",
-    //         "properties": {
-    //           "addressPrefix": "10.3.200.0/24"
-    //         }
-    //       }
-    //     ]
-    //   }
-    // },
     {
       "name": "nodes",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
-      "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName'))]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -174,9 +149,6 @@
       "name": "opsCenter",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
-      "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName'))]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
