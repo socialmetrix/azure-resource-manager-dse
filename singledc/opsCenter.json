@@ -17,6 +17,9 @@
     "osSettings": {
       "type": "object"
     },
+    "vnetResourceGroup":{
+      "type": "string"
+    },
     "vnetName": {
       "type": "string"
     },
@@ -27,7 +30,7 @@
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "storageAccountName": "[concat('opscenter', parameters('uniqueString'))]",
-    "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
+    "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
   "resources": [

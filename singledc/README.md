@@ -31,3 +31,10 @@ On completion, OpsCenter will be accessible on port 8888 of the public IP addres
 ```bash
 azure group create --tags 'billing=quantum' datastax eastus2
 ```
+
+```bash
+azure group deployment create \
+  --template-file mainTemplate.json \
+  --parameters-file mainTemplateParameters.json \
+  datastax datastax
+```
