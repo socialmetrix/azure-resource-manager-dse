@@ -42,7 +42,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat('smxopscenterIP')]"
+          "domainNameLabel": "[concat('smxopscenter-ip')]"
         }
       }
     },
