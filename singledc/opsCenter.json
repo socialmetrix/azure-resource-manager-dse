@@ -62,7 +62,8 @@
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'opscenter')]"
               },
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "10.3.150.5",
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
