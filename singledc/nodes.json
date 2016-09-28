@@ -81,7 +81,8 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[concat('10.3.150.', add(10, copyindex()))]",
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
