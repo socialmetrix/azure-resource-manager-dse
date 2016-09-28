@@ -179,7 +179,7 @@
   "outputs": {
     "opsCenterURL": {
       "type": "string",
-      "value": "[concat('http://opscenter', variables('uniqueString'), '.', variables('location'), '.cloudapp.azure.com:8888')]"
+      "value": "[concat('http://smxopscenter-ip.', variables('location'), '.cloudapp.azure.com:8888')]"
     }
   }
 }
