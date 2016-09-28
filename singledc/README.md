@@ -26,12 +26,17 @@ On completion, OpsCenter will be accessible on port 8888 of the public IP addres
 
 ----
 
+1. Login to Azure:
+```bash
+azure login
+```
 
 1. Create a Resource Group:
 ```bash
 azure group create --tags 'billing=quantum' datastax eastus2
 ```
 
+1. Execute the template:
 ```bash
 azure group deployment create \
   --template-file mainTemplate.json \
