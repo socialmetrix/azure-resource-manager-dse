@@ -39,7 +39,7 @@
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "vmName": "[concat(parameters('namespace'), 'vm')]",
-    "storageAccountName": "[concat(parameters('namespace'), parameters('uniqueString'))]",
+    "storageAccountName": "[concat('smx', parameters('namespace'), parameters('nodeCount'))]",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
@@ -56,11 +56,11 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
+      "name": "[concat(variables('storageAccountName'))]",
       "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
-        "accountType": "Standard_LRS"
+        "accountType": "Premium_LRS"
       }
     },
     {
@@ -110,6 +110,7 @@
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), 'vm', copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "",
           
           "linuxConfiguration": {
             "disablePasswordAuthentication": true,
@@ -133,7 +134,18 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [
+            {
+              "name": "datadisk0",
+              "diskSizeGB": "1023",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', variables('storageAccountName'), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-datadisk0.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [
