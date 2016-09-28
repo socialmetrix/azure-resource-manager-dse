@@ -29,7 +29,7 @@
   },
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[concat('opscenter', parameters('uniqueString'))]",
+    "storageAccountName": "[concat('smxopscenter')]",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
@@ -42,7 +42,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat('opscenter', parameters('uniqueString'))]"
+          "domainNameLabel": "[concat('smxopscenterIP')]"
         }
       }
     },

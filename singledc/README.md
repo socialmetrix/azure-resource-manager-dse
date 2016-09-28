@@ -1,5 +1,8 @@
 #Datastax Enterprise - Socialmetrix Deploy
 
+
+## Creating Machines
+
 1. Login to Azure:
 
 ```bash
@@ -20,6 +23,18 @@ azure group deployment create \
   --parameters-file mainTemplateParameters.json \
   datastax datastax
 ```
+
+
+## Cluster configuration
+
+```bash
+azure vm list "datastax" --json > /tmp/rg-datastax.json
+
+```
+
+
+
+## Destroy everything
 
 1. If you need to delete the Resource Group:
 
