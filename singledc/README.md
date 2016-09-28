@@ -24,14 +24,16 @@ azure group deployment create \
   datastax datastax
 ```
 
-
 ## Cluster configuration
 
+1. Open [Datastax Lifecycle Manager](http://smxopscenter-ip.eastus2.cloudapp.azure.com:8888/opscenter/lcm.html) and configure your cluster
+
+1. To obtain a list of all nodes you can use this command:
+
 ```bash
-azure vm list "datastax" --json > /tmp/rg-datastax.json
-
+azure network nic list "datastax" --json > /tmp/datastax-nic.json
+cat /tmp/datastax-nic.json | jq -r '.[] | [.name, .ipConfigurations[].privateIPAddress] | @csv' | sort
 ```
-
 
 
 ## Destroy everything
@@ -39,5 +41,5 @@ azure vm list "datastax" --json > /tmp/rg-datastax.json
 1. If you need to delete the Resource Group:
 
 ```bash
-azure group delete datastax
+azure group delete -q datastax
 ```
