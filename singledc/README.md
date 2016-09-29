@@ -9,12 +9,12 @@ This is our current deploy template. Differences from official DSE are:
 | VM name | IP |
 | --- | --- |
 | opscenter | 10.3.150.5 |
-| dc0vm0 | 10.3.150.10 |
-| dc0vm1 | 10.3.150.11 |
-| dc0vm2 | 10.3.150.12 |
-| dc0vm3 | 10.3.150.13 |
-| dc0vm4 | 10.3.150.14 |
-| dc0vm5 | 10.3.150.15 |
+| dc0vm0 | 10.3.150.100 |
+| dc0vm1 | 10.3.150.101 |
+| dc0vm2 | 10.3.150.102 |
+| dc0vm3 | 10.3.150.103 |
+| dc0vm4 | 10.3.150.104 |
+| dc0vm5 | 10.3.150.105 |
 
 
 ## Creating Machines
@@ -68,6 +68,18 @@ service opscenterd start
 ```bash
 azure network nic list "datastax" --json > /tmp/datastax-nic.json
 cat /tmp/datastax-nic.json | jq -r '.[] | [.name, .ipConfigurations[].privateIPAddress] | @csv' | sort
+```
+
+1. Set **vnodes** to 128 for **Spark**, as [described here](https://docs.datastax.com/en/datastax_enterprise/5.0/datastax_enterprise/config/configVnodes.html)
+
+## Enable User Authentication 
+[Reference](https://docs.datastax.com/en/opscenter/6.0/opsc/configure/opscEnablingAuth.html):
+
+```
+# /etc/opscenter/opscenterd.conf
+
+[authentication]
+enabled=True
 ```
 
 ## Destroy everything
