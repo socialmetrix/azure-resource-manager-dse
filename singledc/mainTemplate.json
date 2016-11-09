@@ -92,7 +92,6 @@
     "nodesTemplateUrl": "[concat(variables('templateUrl'), 'nodes.json')]",
     "opsCenterTemplateUrl": "[concat(variables('templateUrl'), 'opsCenter.json')]",
     "location": "[resourcegroup().location]",
-    "uniqueString": "[uniqueString(resourceGroup().id, deployment().name)]",
     "vnetName": "[parameters('vnetName')]",
     "subnetName": "[parameters('subnetName')]",
     "osSettings": {
@@ -122,9 +121,6 @@
         "parameters": {
           "location": {
             "value": "[variables('location')]"
-          },
-          "uniqueString": {
-            "value": "[variables('uniqueString')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
