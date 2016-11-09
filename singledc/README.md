@@ -25,10 +25,19 @@ This is our current deploy template. Differences from official DSE are:
 azure login
 ```
 
-1. Create a Resource Group:
+1. Create a **Resource Group**:
 
 ```bash
 azure group create --tags 'billing=quantum' dse eastus2
+```
+
+1. Create the storage for machines:
+
+```bash
+azure storage account create \
+  --location eastus2 \
+  --kind Storage \
+  --resource-group smxdc1 dse
 ```
 
 1. Execute the template:
