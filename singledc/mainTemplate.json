@@ -64,6 +64,25 @@
       "metadata": {
         "description": "Subnet Name"
       }
+    },
+    "subnetOctets":{
+      "type": "string",
+      "metadata": {
+        "description": "Three first octets of the network, eg: 192.168.10"
+      }
+    },
+    "opscenterPublicName": {
+      "type": "string",
+      "metadata": {
+        "description": "Opscenter public name"
+      }
+    },
+    "datacenterName": {
+      "type": "string",
+      "defaultValue": "dc0",
+      "metadata": {
+        "description": "Name to prefix all machines, aka datacenter"
+      }
     }
   },
   "variables": {
@@ -131,8 +150,11 @@
           "subnetName": {
             "value": "[variables('subnetName')]"
           },
+          "subnetOctets":{
+            "value": "[parameters('subnetOctets')]"
+          },
           "namespace": {
-            "value": "dc0"
+            "value": "[parameters('datacenterName')]"
           }
         }
       }
@@ -151,8 +173,8 @@
           "location": {
             "value": "[variables('location')]"
           },
-          "uniqueString": {
-            "value": "[variables('uniqueString')]"
+          "opscenterPublicName": {
+            "value": "[parameters('opscenterPublicName')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
@@ -171,6 +193,9 @@
           },
           "subnetName": {
             "value": "[variables('subnetName')]"
+          },
+          "subnetOctets":{
+            "value": "[parameters('subnetOctets')]"
           }
         }
       }
@@ -179,7 +204,7 @@
   "outputs": {
     "opsCenterURL": {
       "type": "string",
-      "value": "[concat('http://smxopscenter-ip.', variables('location'), '.cloudapp.azure.com:8888')]"
+      "value": "[concat('http://', parameters('opscenterPublicName') ,'.', variables('location'), '.cloudapp.azure.com:8888')]"
     }
   }
 }

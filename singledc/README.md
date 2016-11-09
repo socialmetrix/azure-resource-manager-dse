@@ -4,17 +4,17 @@ This is our current deploy template. Differences from official DSE are:
 - It creates 6 node machines, [edit here to change](https://github.com/socialmetrix/azure-resource-manager-dse/blob/feature/socialmetrix/singledc/mainTemplateParameters.json#L3)
 - Each machine has a 1Tb Premium Storage attached
 - Networking is on a different Resource Group
-- Better naming convention and static IP assignment (10.3.150.x):
+- Better naming convention and static IP assignment, following the rule:
 
 | VM name | IP |
 | --- | --- |
-| opscenter | 10.3.150.5 |
-| dc0vm0 | 10.3.150.100 |
-| dc0vm1 | 10.3.150.101 |
-| dc0vm2 | 10.3.150.102 |
-| dc0vm3 | 10.3.150.103 |
-| dc0vm4 | 10.3.150.104 |
-| dc0vm5 | 10.3.150.105 |
+| opscenter | 10.3.15.5 |
+| dc1vm0 | 10.3.15.100 |
+| dc1vm1 | 10.3.15.101 |
+| dc1vm2 | 10.3.15.102 |
+| dc1vm3 | 10.3.15.103 |
+| dc1vm4 | 10.3.15.104 |
+| dc1vm5 | 10.3.15.105 |
 
 
 ## Creating Machines
@@ -28,7 +28,7 @@ azure login
 1. Create a Resource Group:
 
 ```bash
-azure group create --tags 'billing=quantum' datastax eastus2
+azure group create --tags 'billing=quantum' dse eastus2
 ```
 
 1. Execute the template:
@@ -37,7 +37,7 @@ azure group create --tags 'billing=quantum' datastax eastus2
 azure group deployment create \
   --template-file mainTemplate.json \
   --parameters-file mainTemplateParameters.json \
-  datastax datastax
+  dse dse
 ```
 
 ## Cluster configuration
@@ -61,7 +61,7 @@ service opscenterd start
 
 *On my setup it **tooks several minutes** to OpsCenter start answering HTTP requests, be patient!*
 
-1. Open [Datastax Lifecycle Manager](http://smxopscenter-ip.eastus2.cloudapp.azure.com:8888/opscenter/lcm.html) and configure your cluster
+1. Open [Datastax Lifecycle Manager](http://smxopscenter.eastus2.cloudapp.azure.com:8888/opscenter/lcm.html) and configure your cluster
 
 1. To obtain a list of all nodes you can use this command:
 
@@ -87,5 +87,5 @@ enabled=True
 1. If you need to delete the resource group and all its content:
 
 ```bash
-azure group delete -q datastax
+azure group delete -q dse
 ```

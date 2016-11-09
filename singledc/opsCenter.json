@@ -5,7 +5,7 @@
     "location": {
       "type": "string"
     },
-    "uniqueString": {
+    "opscenterPublicName": {
       "type": "string"
     },
     "adminUsername": {
@@ -25,7 +25,10 @@
     },
     "subnetName": {
       "type": "string"
-    }
+    },
+    "subnetOctets": {
+      "type": "string"
+    }    
   },
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
@@ -42,7 +45,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat('smxopscenter-ip')]"
+          "domainNameLabel": "[parameters('opscenterPublicName')]"
         }
       }
     },
@@ -63,7 +66,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'opscenter')]"
               },
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "10.3.150.5",
+              "privateIPAddress": "[concat(parameters('subnetOctets'), '.5')]",
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
@@ -146,7 +149,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash opsCenter.sh ', parameters('location'), ' ', parameters('uniqueString'))]"
+          "commandToExecute": "[concat('bash opsCenter.sh ', parameters('location'), ' ', 'dummyValue')]"
         }
       }
     }

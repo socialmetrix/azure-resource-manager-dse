@@ -3,7 +3,7 @@
     "value": 6
   },
   "vmSize": {
-    "value": "Standard_DS12_v2"
+    "value": "Standard_G2"
   },
   "adminUsername": {
     "value": "smx"
@@ -18,7 +18,16 @@
     "value": "smxnetwork"
   },
   "subnetName": {
-    "value": "datastax"
+    "value": "dse"
+  },
+  "subnetOctets": {
+    "value": "10.3.15"
+  },
+  "opscenterPublicName": {
+    "value": "smxopscenter"
+  },
+  "datacenterName": {
+    "value": "dc1"
   }
 }
 

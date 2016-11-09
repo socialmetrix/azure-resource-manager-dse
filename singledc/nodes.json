@@ -5,9 +5,6 @@
     "location": {
       "type": "string"
     },
-    "uniqueString": {
-      "type": "string"
-    },
     "adminUsername": {
       "type": "string"
     },
@@ -30,6 +27,9 @@
       "type": "string"
     },
     "subnetName": {
+      "type": "string"
+    },
+    "subnetOctets":{
       "type": "string"
     },
     "namespace": {
@@ -82,7 +82,7 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat('10.3.150.', add(100, copyindex()))]",
+              "privateIPAddress": "[concat(parameters('subnetOctets'), '.', add(100, copyindex()))]",
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
@@ -180,7 +180,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash node.sh ', parameters('location'), ' ', parameters('uniqueString'), ' ', parameters('namespace'), ' ', resourceGroup().location)]"
+          "commandToExecute": "[concat('bash node.sh ', parameters('location'), ' ', 'dummyValue', ' ', parameters('namespace'), ' ', resourceGroup().location)]"
         }
       }
     }
