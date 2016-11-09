@@ -55,19 +55,6 @@
       }
     },
     {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(variables('storageAccountName'), 'vm', copyIndex())]",
-      "apiVersion": "2015-06-15",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "accountType": "Premium_LRS"
-      },
-      "copy": {
-        "name": "[concat(variables('storageAccountName'), 'storageAccountLoop')]",
-        "count": "[parameters('nodeCount')]"
-      }
-    },
-    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
@@ -102,8 +89,7 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'vm', copyindex())]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), 'vm', copyIndex())]"
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]"
       ],
       "properties": {
         "availabilitySet": {
@@ -139,18 +125,7 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          },
-          "dataDisks": [
-            {
-              "name": "datadisk0",
-              "diskSizeGB": "1023",
-              "lun": 0,
-              "vhd": {
-                "uri": "[concat('http://', variables('storageAccountName'), 'vm', copyIndex(), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-datadisk0.vhd')]"
-              },
-              "createOption": "Empty"
-            }
-          ]
+          }
         },
         "networkProfile": {
           "networkInterfaces": [
