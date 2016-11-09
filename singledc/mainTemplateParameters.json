@@ -3,7 +3,7 @@
     "value": 6
   },
   "vmSize": {
-    "value": "Standard_G2"
+    "value": "Standard_GS2"
   },
   "adminUsername": {
     "value": "smx"
