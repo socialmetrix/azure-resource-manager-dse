@@ -31,15 +31,6 @@ azure login
 azure group create --tags 'billing=quantum' dse eastus2
 ```
 
-1. Create the storage for machines:
-
-```bash
-azure storage account create \
-  --location eastus2 \
-  --kind Storage \
-  --resource-group smxdc1 dse
-```
-
 1. Execute the template:
 
 ```bash
@@ -63,7 +54,7 @@ echo "deb https://${DSA_EMAIL}:${DSA_PASSWORD}@debian.datastax.com/enterprise st
 curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add -
 
 apt-get update
-apt-get install -y opscenter htop
+apt-get install -y opscenter htop sysstat
 
 service opscenterd start
 ```
@@ -75,8 +66,8 @@ service opscenterd start
 1. To obtain a list of all nodes you can use this command:
 
 ```bash
-azure network nic list "datastax" --json > /tmp/datastax-nic.json
-cat /tmp/datastax-nic.json | jq -r '.[] | [.name, .ipConfigurations[].privateIPAddress] | @csv' | sort
+azure network nic list "dse" --json > /tmp/dse-nic.json
+cat /tmp/dse-nic.json | jq -r '.[] | [.name, .ipConfigurations[].privateIPAddress] | @csv' | sort
 ```
 
 1. Set **vnodes** to 128 for **Spark**, as [described here](https://docs.datastax.com/en/datastax_enterprise/5.0/datastax_enterprise/config/configVnodes.html)

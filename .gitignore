@@ -9,3 +9,5 @@ multidc/generatedTemplate.json
 
 # PyCharm files
 *.idea
+
+.DS_Store
