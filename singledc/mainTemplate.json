@@ -13,23 +13,8 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_DS12_v2",
+      "defaultValue": "Standard_L8S",
       "allowedValues": [
-        "Standard_DS1_v2",
-        "Standard_DS2_v2",
-        "Standard_DS3_v2",
-        "Standard_DS4_v2",
-        "Standard_DS5_v2",
-        "Standard_DS11_v2",
-        "Standard_DS12_v2",
-        "Standard_DS13_v2",
-        "Standard_DS14_v2",
-        "Standard_DS15_v2",
-        "Standard_GS1",
-        "Standard_GS2",
-        "Standard_GS3",
-        "Standard_GS4",
-        "Standard_GS5",
         "Standard_D1_v2",
         "Standard_D2_v2",
         "Standard_D3_v2",
@@ -44,7 +29,30 @@
         "Standard_G2",
         "Standard_G3",
         "Standard_G4",
-        "Standard_G5"
+        "Standard_G5",
+        "Standard_D1",
+        "Standard_D2",
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_F1",
+        "Standard_F2",
+        "Standard_F4",
+        "Standard_F8",
+        "Standard_F16",
+        "Standard_D11",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14",
+        "Standard_H8",
+        "Standard_H16",
+        "Standard_H8m",
+        "Standard_H16m",
+        "Standard_H16r",
+        "Standard_H16mr",
+        "Standard_L4S",
+        "Standard_L8S",
+        "Standard_L16S",
+        "Standard_L32S"
       ],
       "metadata": {
         "description": "Size of virtual machine to provision for the cluster"
@@ -105,7 +113,6 @@
     "templateUrl": "[concat(variables('baseUrl'), '/singledc/')]",
     "extensionUrl": "[concat(variables('baseUrl'), '/extensions/')]",
     "nodesTemplateUrl": "[concat(variables('templateUrl'), 'nodes.json')]",
-    "opsCenterTemplateUrl": "[concat(variables('templateUrl'), 'opsCenter.json')]",
     "location": "[resourcegroup().location]",
     "vnetName": "[parameters('vnetName')]",
     "subnetName": "[parameters('subnetName')]",
@@ -113,12 +120,12 @@
       "imageReference": {
         "publisher": "Canonical",
         "offer": "UbuntuServer",
-        "sku": "14.04.4-LTS",
+        "sku": "14.04.5-LTS",
         "version": "latest"
       },
       "scripts": [
-        "[concat(variables('extensionUrl'), 'node.sh')]",
-        "[concat(variables('extensionUrl'), 'opsCenter.sh')]"
+        // "[concat(variables('extensionUrl'), 'node.sh')]",
+        // "[concat(variables('extensionUrl'), 'opsCenter.sh')]"
       ]
     }
   },
@@ -169,53 +176,12 @@
           }
         }
       }
-    },
-    {
-      "name": "opsCenter",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('opsCenterTemplateUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[variables('location')]"
-          },
-          "opscenterPublicName": {
-            "value": "[parameters('opscenterPublicName')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "sshKeyData": {
-            "value": "[parameters('sshKeyData')]"
-          },
-          "osSettings": {
-            "value": "[variables('osSettings')]"
-          },
-          "vnetResourceGroup":{
-            "value": "[parameters('vnetResourceGroup')]"
-          },
-          "vnetName": {
-            "value": "[variables('vnetName')]"
-          },
-          "subnetName": {
-            "value": "[variables('subnetName')]"
-          },
-          "subnetOctets":{
-            "value": "[parameters('subnetOctets')]"
-          }
-        }
-      }
     }
   ],
   "outputs": {
     "opsCenterURL": {
       "type": "string",
-      "value": "[concat('http://', parameters('opscenterPublicName') ,'.', variables('location'), '.cloudapp.azure.com:8888')]"
+      "value": "http://ops.dse.smx.la:8888"
     }
   }
 }
