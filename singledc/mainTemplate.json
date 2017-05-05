@@ -102,7 +102,7 @@
     },
     "datacenterName": {
       "type": "string",
-      "defaultValue": "analytics0",
+      "defaultValue": "analytics",
       "metadata": {
         "description": "Name to prefix all machines, aka datacenter"
       }
