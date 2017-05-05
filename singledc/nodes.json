@@ -55,6 +55,7 @@
         "platformUpdateDomainCount": 18
       }
     },
+    // {
     //   "type": "Microsoft.Storage/storageAccounts",
     //   "name": "[variables('storageAccountName')]",
     //   "apiVersion": "2015-06-15",
@@ -116,34 +117,24 @@
         //     "createOption": "FromImage"
         //   }
         // },
-
-        {
-          "apiVersion": "2015-06-15",
-          "type": "Microsoft.Network/networkInterfaces",
-          "name": "[concat(parameters('namespace'), copyindex(1))]",
-          "location": "[parameters('location')]",
-          "copy": {
-            "name": "[concat(parameters('namespace'), 'nicLoop')]",
-            "count": "[parameters('nodeCount')]"
-          },
-           "networkProfile": {
-           "networkInterfaces": [
+        "networkProfile": {
+          "networkInterfaces": [
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'), copyindex(1)))]"
             }
           ]
         }
-      }
-    },
-//    {
-  //    "apiVersion": "2015-06-15",
-    //  "type": "Microsoft.Network/networkInterfaces",
-      //"name": "[concat(parameters('namespace'), copyindex(1))]",
-      //"location": "[parameters('location')]",
-      //"copy": {
-      //  "name": "[concat(parameters('namespace'), 'nicLoop')]",
-        //"count": "[parameters('nodeCount')]"
-      //},
+      },
+    //},
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(parameters('namespace'), copyindex(1))]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "[concat(parameters('namespace'), 'nicLoop')]",
+        "count": "[parameters('nodeCount')]"
+      },
       "properties": {
         "ipConfigurations": [
           {
