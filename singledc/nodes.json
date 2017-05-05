@@ -38,13 +38,12 @@
   },
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "vmName": "[parameters('namespace')]",
-    // "storageAccountName": "smxdata",
+    "vmName": "[concat(parameters('namespace'), 'vm')]",
+    //"storageAccountName": "[concat('smx', parameters('namespace'))]",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
   "resources": [
-    // Please create me one availability set, with:
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/availabilitySets",
@@ -55,41 +54,15 @@
         "platformUpdateDomainCount": 18
       }
     },
-    // {
-    //   "type": "Microsoft.Storage/storageAccounts",
-    //   "name": "[variables('storageAccountName')]",
-    //   "apiVersion": "2015-06-15",
-    //   "location": "[parameters('location')]",
-    //   "properties": {
-    //     "accountType": "Standard_LRS"
-    //   }
-    // },
-    {
-    "apiVersion": "2015-06-15",
-    "type": "Microsoft.Network/networkInterfaces",
-    "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
-    "location": "[parameters('location')]",
-    "copy": {
-      "name": "[concat(parameters('namespace'), 'nicLoop')]",
-      "count": "[parameters('nodeCount')]"
-    },
-    "properties": {
-      "ipConfigurations": [
-        {
-          "name": "ipconfig1",
-          "properties": {
-            "privateIPAllocationMethod": "Static",
-            "privateIPAddress": "[concat(parameters('subnetOctets'), '.', add(100, copyindex()))]",
-            "subnet": {
-              "id": "[variables('subnetId')]"
-            }
-          }
-        }
-      ]
-    }
-},
-    // That will contain:
-    // (Notice the "copy" property)
+  //  {
+    //  "type": "Microsoft.Storage/storageAccounts",
+      //"name": "[variables('storageAccountName')]",
+      //"apiVersion": "2015-06-15",
+      //"location": "[parameters('location')]",
+      //"properties": {
+      //  "accountType": "Standard_LRS"
+      //}
+    //},
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
@@ -114,21 +87,19 @@
         ]
       }
     },
-{
-
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('namespace'), copyindex(1))]",
+      "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'), 'vmLoop')]",
         "count": "[parameters('nodeCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), copyindex(1))]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]"
-        // "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'vm', copyindex())]",
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
+      //  "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "properties": {
         "availabilitySet": {
@@ -138,7 +109,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[concat(parameters('namespace'), copyIndex(1))]",
+          "computerName": "[concat(parameters('namespace'), 'vm', copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "",
 
@@ -155,53 +126,29 @@
           }
 
         },
-        // "storageProfile": {
-        //   "imageReference": "[parameters('osSettings').imageReference]",
-        //   "osDisk": {
-        //     "name": "osdisk",
-        //     "vhd": {
-        //       "uri": "[concat('http://', variables('storageAccountName'), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(1), '-osdisk.vhd')]"
-        //     },
-        //     "caching": "ReadWrite",
-        //     "createOption": "FromImage"
-        //   }
-        // },
+      //  "storageProfile": {
+        //  "imageReference": "[parameters('osSettings').imageReference]",
+          //"osDisk": {
+          //  "name": "osdisk",
+          //  "vhd": {
+          //    "uri": "[concat('http://', variables('storageAccountName'), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
+          //  },
+          //  "caching": "ReadWrite",
+          //  "createOption": "FromImage"
+          //}
+        //},
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'), copyindex(1)))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'), 'vm', copyindex()))]"
             }
           ]
         }
       }
     },
     {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('namespace'), copyindex(1))]",
-      "location": "[parameters('location')]",
-      "copy": {
-        "name": "[concat(parameters('namespace'), 'nicLoop')]",
-        "count": "[parameters('nodeCount')]"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat(parameters('subnetOctets'), '.', copyindex(1))]",
-              "subnet": {
-                "id": "[variables('subnetId')]"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('namespace'), copyindex(1), '/installdsenode')]",
+      "name": "[concat(parameters('namespace'), 'vm', copyindex(), '/installdsenode')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "copy": {
@@ -209,7 +156,7 @@
         "count": "[parameters('nodeCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), copyindex(1))]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
