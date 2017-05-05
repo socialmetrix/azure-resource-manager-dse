@@ -102,14 +102,14 @@
     },
     "datacenterName": {
       "type": "string",
-      "defaultValue": "dc0",
+      "defaultValue": "analytics",
       "metadata": {
         "description": "Name to prefix all machines, aka datacenter"
       }
     }
   },
   "variables": {
-    "baseUrl": "https://raw.githubusercontent.com/socialmetrix/azure-resource-manager-dse/feature/socialmetrix",
+    "baseUrl": "https://raw.githubusercontent.com/socialmetrix/azure-resource-manager-dse/AnalyticsDC",
     "templateUrl": "[concat(variables('baseUrl'), '/singledc/')]",
     "extensionUrl": "[concat(variables('baseUrl'), '/extensions/')]",
     "nodesTemplateUrl": "[concat(variables('templateUrl'), 'nodes.json')]",

@@ -12,17 +12,17 @@
     "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCKBmpHlWGBeBYWVmwQVSy2ojRMzNONL8S4WT0TbHCT8OYXuw+INsmARHtXzHxYmii5VyEKmn2d5Mt30+pfbfD0hGQAgCCnoX7xLAa0WBX23OXbSC9rsDftbT7LClW2jOz2lWf90NCdF0p6qTN4DDQu79N8U4wTgCNX9R2oGXMEPVOL2sgS9FLma1nlNrjIGtryHy7JOKfAQezCW9Vluojv2IJuhsU8ewSSoVU0QHqiR4JYhwEgjH0rXmP6vhBM/UHljxK+VGEL/+n1Ki4E7Wm9gFgv/Eq6tW3ufFedET2QPX96ivEeI91Iqcd3V9mhrVFFNZN3DMJw3lsYXxHeefv smx@deploy"
   },
   "vnetResourceGroup": {
-    "value": "devops"
+    "value": "analytics"
   },
   "vnetName": {
-    "value": "smxnetwork"
+    "value": "analyticsnet"
   },
   "subnetName": {
-    // "value": "datastax"
-    "value": "test"
+     "value": "analytics"
+
   },
   "subnetOctets": {
-    "value": "10.3.245"
+    "value": "10.3.200.1/24"
   },
   "opscenterPublicName": {
     "value": "opscenter-1"
@@ -30,5 +30,5 @@
   "datacenterName": {
     "value": "analytics"
   }
-}
 
+}
