@@ -39,7 +39,6 @@
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "vmName": "[concat(parameters('namespace'), 'vm')]",
-    //"storageAccountName": "[concat('smx', parameters('namespace'))]",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
@@ -54,15 +53,7 @@
         "platformUpdateDomainCount": 18
       }
     },
-  //  {
-    //  "type": "Microsoft.Storage/storageAccounts",
-      //"name": "[variables('storageAccountName')]",
-      //"apiVersion": "2015-06-15",
-      //"location": "[parameters('location')]",
-      //"properties": {
-      //  "accountType": "Standard_LRS"
-      //}
-    //},
+
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
@@ -99,7 +90,6 @@
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'vm', copyindex())]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
-      //  "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "properties": {
         "availabilitySet": {
@@ -126,17 +116,7 @@
           }
 
         },
-      //  "storageProfile": {
-        //  "imageReference": "[parameters('osSettings').imageReference]",
-          //"osDisk": {
-          //  "name": "osdisk",
-          //  "vhd": {
-          //    "uri": "[concat('http://', variables('storageAccountName'), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
-          //  },
-          //  "caching": "ReadWrite",
-          //  "createOption": "FromImage"
-          //}
-        //},
+
         "networkProfile": {
           "networkInterfaces": [
             {
