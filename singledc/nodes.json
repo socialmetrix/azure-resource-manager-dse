@@ -64,9 +64,58 @@
     //     "accountType": "Standard_LRS"
     //   }
     // },
-
+    {
+    "apiVersion": "2015-06-15",
+    "type": "Microsoft.Network/networkInterfaces",
+    "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
+    "location": "[parameters('location')]",
+    "copy": {
+      "name": "[concat(parameters('namespace'), 'nicLoop')]",
+      "count": "[parameters('nodeCount')]"
+    },
+    "properties": {
+      "ipConfigurations": [
+        {
+          "name": "ipconfig1",
+          "properties": {
+            "privateIPAllocationMethod": "Static",
+            "privateIPAddress": "[concat(parameters('subnetOctets'), '.', add(100, copyindex()))]",
+            "subnet": {
+              "id": "[variables('subnetId')]"
+            }
+          }
+        }
+      ]
+    }
+},
     // That will contain:
     // (Notice the "copy" property)
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "[concat(parameters('namespace'), 'nicLoop')]",
+        "count": "[parameters('nodeCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[concat(parameters('subnetOctets'), '.', add(100, copyindex()))]",
+              "subnet": {
+                "id": "[variables('subnetId')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+{
+
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
