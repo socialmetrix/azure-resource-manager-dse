@@ -1,9 +1,9 @@
 {
   "nodeCount": {
-    "value": 1
+    "value": 2
   },
   "vmSize": {
-    "value": "Standard_L8S"
+    "value": "Standard_L4s"
   },
   "adminUsername": {
     "value": "smx"
@@ -12,23 +12,24 @@
     "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCKBmpHlWGBeBYWVmwQVSy2ojRMzNONL8S4WT0TbHCT8OYXuw+INsmARHtXzHxYmii5VyEKmn2d5Mt30+pfbfD0hGQAgCCnoX7xLAa0WBX23OXbSC9rsDftbT7LClW2jOz2lWf90NCdF0p6qTN4DDQu79N8U4wTgCNX9R2oGXMEPVOL2sgS9FLma1nlNrjIGtryHy7JOKfAQezCW9Vluojv2IJuhsU8ewSSoVU0QHqiR4JYhwEgjH0rXmP6vhBM/UHljxK+VGEL/+n1Ki4E7Wm9gFgv/Eq6tW3ufFedET2QPX96ivEeI91Iqcd3V9mhrVFFNZN3DMJw3lsYXxHeefv smx@deploy"
   },
   "vnetResourceGroup": {
-    "value": "analytics"
+    "value": "devops"
   },
   "vnetName": {
-    "value": "analytics"
+    "value": "smxnetwork"
   },
   "subnetName": {
      "value": "analytics"
-
   },
   "subnetOctets": {
-    "value": "10.3.300"
+    "value": "10.3.200"
   },
   "opscenterPublicName": {
     "value": "opscenter-1"
   },
   "datacenterName": {
     "value": "analytics"
+  },
+  "storageAccountName": {
+    "value": "smxanalytics"
   }
-
 }

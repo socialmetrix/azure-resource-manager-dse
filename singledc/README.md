@@ -28,7 +28,7 @@ azure login
 1. Create a **Resource Group**:
 
 ```bash
-azure group create --tags 'billing=quantum' dse eastus2
+azure group create --tags 'billing=quantum' analytics eastus2
 ```
 
 1. Execute the template:
