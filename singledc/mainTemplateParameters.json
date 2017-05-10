@@ -3,7 +3,7 @@
     "value": 6
   },
   "vmSize": {
-    "value": "Standard_GS2"
+    "value": "Standard_DS11_v2"
   },
   "adminUsername": {
     "value": "smx"
@@ -30,4 +30,3 @@
     "value": "dc1"
   }
 }
-
