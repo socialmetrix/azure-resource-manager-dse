@@ -3,7 +3,7 @@
     "value": 2
   },
   "vmSize": {
-    "value": "Standard_A1_v2"
+    "value": "Standard_L4s"
   },
   "adminUsername": {
     "value": "smx"

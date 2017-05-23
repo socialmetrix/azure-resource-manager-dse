@@ -13,7 +13,7 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_A1_v2",
+      "defaultValue": "Standard_L4s",
       "metadata": {
         "description": "Size of virtual machine to provision for the cluster"
       }
