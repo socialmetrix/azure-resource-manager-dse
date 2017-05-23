@@ -5,6 +5,6 @@
 azure group deployment create \
   --template-file mainTemplate.json \
   --parameters-file mainTemplateParameters.json \
-    analytics-staging analytics
+    analytics analytics
 
   # datastax datastax
