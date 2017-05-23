@@ -62,7 +62,7 @@
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "properties": {
-        "accountType": "Standard_LRS"
+        "accountType": "Premium_LRS"
       }
     },
     {
@@ -113,7 +113,7 @@
         "storageProfile": {
          "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-           "name": "osdisk",
+           "name": "Datadrive",
            "vhd": {
              "uri": "[concat('http://', parameters('storageAccountName'), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(1), '-osdisk.vhd')]"
            },
