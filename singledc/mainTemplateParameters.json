@@ -1,9 +1,9 @@
 {
   "nodeCount": {
-    "value": 6
+    "value": 2
   },
   "vmSize": {
-    "value": "Standard_DS11_v2"
+    "value": "Standard_L4s"
   },
   "adminUsername": {
     "value": "smx"
@@ -18,15 +18,15 @@
     "value": "smxnetwork"
   },
   "subnetName": {
-    "value": "dse"
+    "value": "analytics"
   },
   "subnetOctets": {
-    "value": "10.3.15"
+    "value": "10.3.200"
   },
   "opscenterPublicName": {
     "value": "smxopscenter5"
   },
   "datacenterName": {
-    "value": "dc1"
+    "value": "dse"
   }
 }
