@@ -124,7 +124,7 @@
           }
           "dataDisks": [
                 {
-                "name": "datadrive",
+                "name": "stogetest",
                   "diskSizeGB": "1023",
                   "lun": 0,
                   "vhd": {
