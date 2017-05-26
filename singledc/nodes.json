@@ -135,7 +135,7 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
           "dataDisks": [
             {
               "lun": "1",
