@@ -64,7 +64,18 @@
       "properties": {
         "accountType": "Premium_LRS"
       }
-    },
+      "dataDisks": [
+            {
+            "name": "datadisk0",
+              "diskSizeGB": "1023",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', variables('storageAccountName'),  copyIndex(), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-datadisk0.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ]
+  },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
@@ -101,7 +112,8 @@
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'),  copyindex(1))]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), copyIndex(1))]"
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]"
       ],
       "properties": {
         "availabilitySet": {
@@ -120,15 +132,6 @@
            "caching": "ReadWrite",
            "createOption": "FromImage"
           }
-
-        "dataDisks": {
-            {
-              "lun": "1",
-              "createOption": "empty",
-              "caching": "ReadOnly",
-              "diskSizeGB": "1023",
-              }
-            }
         },
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), copyindex(1))]",
