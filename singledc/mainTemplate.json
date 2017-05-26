@@ -54,7 +54,12 @@
         "description": "Three first octets of the network, eg: 192.168.10"
       }
     },
-
+    "opscenterPublicName": {
+      "type": "string",
+      "metadata": {
+        "description": "Opscenter public name"
+      }
+    },
     "datacenterName": {
       "type": "string",
       "defaultValue": "dse",
@@ -68,6 +73,7 @@
     "templateUrl": "[concat(variables('baseUrl'), '/singledc/')]",
     "extensionUrl": "[concat(variables('baseUrl'), '/extensions/')]",
     "nodesTemplateUrl": "[concat(variables('templateUrl'), 'nodes.json')]",
+    "opsCenterTemplateUrl": "[concat(variables('templateUrl'), 'opsCenter.json')]",
     "location": "[resourcegroup().location]",
     "vnetName": "[parameters('vnetName')]",
     "subnetName": "[parameters('subnetName')]",
@@ -129,7 +135,52 @@
         }
       }
     },
-
+    {
+      "name": "opsCenter",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('opsCenterTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "opscenterPublicName": {
+            "value": "[parameters('opscenterPublicName')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "sshKeyData": {
+            "value": "[parameters('sshKeyData')]"
+          },
+          "osSettings": {
+            "value": "[variables('osSettings')]"
+          },
+          "vnetResourceGroup":{
+            "value": "[parameters('vnetResourceGroup')]"
+          },
+          "vnetName": {
+            "value": "[variables('vnetName')]"
+          },
+          "subnetName": {
+            "value": "[variables('subnetName')]"
+          },
+          "subnetOctets":{
+            "value": "[parameters('subnetOctets')]"
+          }
+        }
+      }
+    }
   ],
-  
-},
+  "outputs": {
+    "opsCenterURL": {
+      "type": "string",
+      "value": "[concat('http://', parameters('opscenterPublicName') ,'.', variables('location'), '.cloudapp.azure.com:8888')]"
+    }
+  }
+}
