@@ -136,6 +136,14 @@
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
+          "dataDisks": [
+            {
+              "lun": "1",
+              "createOption": "empty",
+              "caching": "ReadOnly",
+              "diskSizeGB": "1023",
+              }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [
