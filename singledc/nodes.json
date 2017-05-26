@@ -64,17 +64,7 @@
       "properties": {
         "accountType": "Premium_LRS"
       }
-      "dataDisks": [
-            {
-            "name": "datadrive",
-              "diskSizeGB": "1023",
-              "lun": 0,
-              "vhd": {
-                "uri": "[concat('http://', variables('storageAccountName'),  copyIndex(), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-datadisk0.vhd')]"
-              },
-              "createOption": "Empty"
-            }
-          ]
+
   },
     {
       "apiVersion": "2015-06-15",
@@ -132,6 +122,17 @@
            "caching": "ReadWrite",
            "createOption": "FromImage"
           }
+          "dataDisks": [
+                {
+                "name": "datadrive",
+                  "diskSizeGB": "1023",
+                  "lun": 0,
+                  "vhd": {
+                    "uri": "[concat('http://', variables('storageAccountName'),  copyIndex(), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-datadisk0.vhd')]"
+                  },
+                  "createOption": "Empty"
+                }
+              ]
         },
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), copyindex(1))]",
