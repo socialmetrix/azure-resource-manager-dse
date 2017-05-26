@@ -120,7 +120,7 @@
            "caching": "ReadWrite",
            "createOption": "FromImage"
           }
-        },
+
         "dataDisks": {
             {
               "lun": "1",
@@ -128,7 +128,7 @@
               "caching": "ReadOnly",
               "diskSizeGB": "1023",
               }
-
+            }
         },
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), copyindex(1))]",
