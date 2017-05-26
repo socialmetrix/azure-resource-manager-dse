@@ -1,6 +1,6 @@
 {
   "nodeCount": {
-    "value": 2
+    "value": 1
   },
   "vmSize": {
     "value": "Standard_L4s"
@@ -18,18 +18,15 @@
     "value": "smxnetwork"
   },
   "subnetName": {
-     "value": "analytics"
+    "value": "test"
   },
   "subnetOctets": {
-    "value": "10.3.200"
+    "value": "10.4.200"
   },
   "opscenterPublicName": {
-    "value": "opscenter-1"
+    "value": "smxopscenter1"
   },
   "datacenterName": {
-    "value": "analytics"
-  },
-  "storageAccountName": {
-    "value": "smxanalytics"
+    "value": "dse"
   }
 }

@@ -121,6 +121,15 @@
            "createOption": "FromImage"
           }
         },
+        "dataDisks": [
+            {
+              "lun": "1",
+              "createOption": "empty",
+              "caching": "ReadOnly",
+              "diskSizeGB": "1023",
+              }
+          ]
+        },
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), copyindex(1))]",
           "adminUsername": "[parameters('adminUsername')]",
