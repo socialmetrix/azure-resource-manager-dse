@@ -102,6 +102,7 @@
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'),  copyindex(1))]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), copyIndex(1))]"
         "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]"
       ],
       "properties": {
@@ -121,7 +122,8 @@
            "caching": "ReadWrite",
            "createOption": "FromImage"
           }
-          },
+        
+        },
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), copyindex(1))]",
           "adminUsername": "[parameters('adminUsername')]",
