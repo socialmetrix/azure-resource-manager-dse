@@ -103,7 +103,7 @@
         "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'),  copyindex(1))]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), copyIndex(1))]"
-
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]"
       ],
       "properties": {
         "availabilitySet": {
@@ -122,17 +122,7 @@
            "caching": "ReadWrite",
            "createOption": "FromImage"
           }
-          "dataDisks": [
-                {
-                "name": "stogetest",
-                  "diskSizeGB": "1023",
-                  "lun": 0,
-                  "vhd": {
-                    "uri": "[concat('http://', variables('storageAccountName'),  copyIndex(), '.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-datadisk0.vhd')]"
-                  },
-                  "createOption": "Empty"
-                }
-              ]
+        
         },
         "osProfile": {
           "computerName": "[concat(parameters('namespace'), copyindex(1))]",
