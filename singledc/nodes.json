@@ -143,7 +143,6 @@
               "caching": "ReadOnly",
               "diskSizeGB": "1023",
               }
-              "managedDisk": { "storageAccountType": "Premium_LRS" }
           ]
         },
         "networkProfile": {
