@@ -62,7 +62,7 @@
     },
     "datacenterName": {
       "type": "string",
-      "defaultValue": "Analytics",
+      "defaultValue": "dse",
       "metadata": {
         "description": "Name to prefix all machines, aka datacenter"
       }
