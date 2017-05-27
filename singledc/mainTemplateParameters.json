@@ -21,10 +21,10 @@
     "value": "rationale"
   },
   "subnetOctets": {
-    "value": "10.4.2"
+    "value": "10.3.50"
   },
   "opscenterPublicName": {
-    "value": "opscenterrationale"
+    "value": "opsrationale"
   },
   "datacenterName": {
     "value": "rationale"

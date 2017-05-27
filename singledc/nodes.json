@@ -55,11 +55,15 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
+      "name": "[concat(variables('storageAccountName'), copyIndex(1))]",
       "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
-        "accountType": "Standard_LRS"
+          "accountType": "Premium_LRS"
+      },
+      "copy": {
+        "name": "[concat(variables('storageAccountName'), 'storageAccountLoop')]",
+        "count": "[parameters('nodeCount')]"
       }
     },
     {
@@ -98,7 +102,7 @@
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), copyindex(1))]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), copyIndex(1))]"
       ],
       "properties": {
         "availabilitySet": {
@@ -134,7 +138,18 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [
+            {
+             "name": "datadisk0",
+             "diskSizeGB": "1023",
+             "lun": 0,
+             "vhd": {
+               "uri": "[concat('http://', variables('storageAccountName'), copyIndex(), '.blob.core.windows.net/vhds/', copyindex(1), '-datadisk0.vhd')]"
+             },
+             "createOption": "Empty"
+            }
+         ]
         },
         "networkProfile": {
           "networkInterfaces": [
