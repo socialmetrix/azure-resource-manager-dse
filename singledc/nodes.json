@@ -66,7 +66,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
+      "name": "[concat(parameters('namespace'), copyindex(1))]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'), 'nicLoop')]",
@@ -90,14 +90,14 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('namespace'), 'vm', copyindex())]",
+      "name": "[concat(parameters('namespace'), copyindex(1))]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "[concat(parameters('namespace'), 'vmLoop')]",
         "count": "[parameters('nodeCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), 'vm', copyindex())]",
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), copyindex(1))]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
@@ -109,7 +109,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[concat(parameters('namespace'), 'vm', copyIndex())]",
+          "computerName": "[concat(parameters('namespace'), copyindex(1))]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "",
           
@@ -140,7 +140,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'), 'vm', copyindex()))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'), copyindex(1)))]"
             }
           ]
         }
@@ -148,7 +148,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('namespace'), 'vm', copyindex(), '/installdsenode')]",
+      "name": "[concat(parameters('namespace'), copyindex(1), '/installdsenode')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "copy": {
@@ -156,7 +156,7 @@
         "count": "[parameters('nodeCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), 'vm', copyindex())]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), copyindex(1))]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
