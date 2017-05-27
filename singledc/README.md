@@ -46,6 +46,8 @@ azure group deployment create \
 These instructions follows official DSE docs [Installing OpsCenter from the Debian package](http://docs.datastax.com/en/opscenter/6.0/opsc/install/opscInstallDeb_t.html)
 
 ```bash
+sudo su
+
 DSA_EMAIL=xxxxxx
 DSA_PASSWORD=xxxxxx
 
