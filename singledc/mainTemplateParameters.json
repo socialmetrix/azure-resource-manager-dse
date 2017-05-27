@@ -18,10 +18,10 @@
     "value": "smxnetwork"
   },
   "subnetName": {
-    "value": "test"
+    "value": "rationale"
   },
   "subnetOctets": {
-    "value": "10.4.200"
+    "value": "10.4.2"
   },
   "opscenterPublicName": {
     "value": "opscenterrationale"
