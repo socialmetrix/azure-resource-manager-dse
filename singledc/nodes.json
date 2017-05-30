@@ -60,7 +60,7 @@
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "properties": {
-        "accountType": "Standard_LRS"
+        "accountType": "Premium_LRS"
       }
     },
     {
@@ -129,14 +129,14 @@
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-            "name": "osdisk",
+            "name": "[concat(parameters('namespace'), copyindex(1), '-osdisk')]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-             "name": "datadisk0",
-             "diskSizeGB": "1023",
+             "name": "[concat(parameters('namespace'), copyindex(1), '-datadisk0')]",
+             "diskSizeGB": 1023,
              "lun": 0,
              "createOption": "Empty"
             }
