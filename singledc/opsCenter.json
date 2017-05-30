@@ -32,7 +32,7 @@
   },
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[parameters('opscenterPublicName')]",
+    "storageAccountName": "[concat('smx', parameters('opscenterPublicName'))]",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
@@ -117,7 +117,7 @@
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-            "name": "osdisk",
+            "name": "opscenter-osdisk",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
