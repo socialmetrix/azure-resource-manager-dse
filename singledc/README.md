@@ -25,6 +25,8 @@ This is our current deploy template. Differences from official DSE are:
 azure login
 ```
 
+1. Create a **SubNet** that matches `mainTemplateParameters.json`, eg: `rationale (10.3.50.0/24)`
+
 1. Create a **Resource Group**:
 
 ```bash
@@ -74,7 +76,7 @@ cat /tmp/dse-nic.json | jq -r '.[] | [.name, .ipConfigurations[].privateIPAddres
 
 1. Set **vnodes** to 128 for **Spark**, as [described here](https://docs.datastax.com/en/datastax_enterprise/5.0/datastax_enterprise/config/configVnodes.html)
 
-## Enable User Authentication 
+## Enable User Authentication
 [Reference](https://docs.datastax.com/en/opscenter/6.0/opsc/configure/opscEnablingAuth.html):
 
 ```

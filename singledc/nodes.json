@@ -44,13 +44,14 @@
   },
   "resources": [
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2016-04-30-preview",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('namespace')]",
       "location": "[parameters('location')]",
       "properties": {
         "platformFaultDomainCount": 3,
-        "platformUpdateDomainCount": 18
+        "platformUpdateDomainCount": 18,
+        "managed": true
       }
     },
     {
