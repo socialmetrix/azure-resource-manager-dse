@@ -118,9 +118,6 @@
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
             "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'opscenter', 'vm-osdisk.vhd')]"
-            },
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }

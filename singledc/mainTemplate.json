@@ -69,7 +69,7 @@
     }
   },
   "variables": {
-    "baseUrl": "https://raw.githubusercontent.com/socialmetrix/azure-resource-manager-dse/feature/socialmetrix",
+    "baseUrl": "https://raw.githubusercontent.com/socialmetrix/azure-resource-manager-dse/feature/managed_disks",
     "templateUrl": "[concat(variables('baseUrl'), '/singledc/')]",
     "extensionUrl": "[concat(variables('baseUrl'), '/extensions/')]",
     "nodesTemplateUrl": "[concat(variables('templateUrl'), 'nodes.json')]",
