@@ -1,7 +1,8 @@
 #!/bin/sh
 
-RESOURCE_GROUP_NAME=dse-staging
-DATACENTER_NAME=analytics
+RESOURCE_GROUP_NAME=${1:-dse}
+shift
+DATACENTER_NAME=${1:-analytics}
 
 azure group create --tags 'billing=quantum' ${RESOURCE_GROUP_NAME} eastus2
 

@@ -1,4 +1,4 @@
-#Datastax Enterprise - Socialmetrix Deploy
+# Datastax Enterprise - Socialmetrix Deploy
 This is our current deploy template. Differences from official DSE are:
 
 - It creates 6 node machines, [edit here to change](https://github.com/socialmetrix/azure-resource-manager-dse/blob/feature/socialmetrix/singledc/mainTemplateParameters.json#L3)
@@ -19,28 +19,15 @@ This is our current deploy template. Differences from official DSE are:
 
 ## Creating Machines
 
-1. Login to Azure:
+1. Login to Azure `azure login`.
 
-```bash
-azure login
-```
+2. Edit `mainTemplateParameters.json` to matches your needs.
 
-1. Create a **SubNet** that matches `mainTemplateParameters.json`, eg: `rationale (10.3.50.0/24)`
+3. Create a **SubNet** that matches `mainTemplateParameters.json`, eg: `rationale (10.3.50.0/24)`
 
-1. Create a **Resource Group**:
+4. Run the deploy script passing the **Resource Group**: `./deploy.sh <Resource Group>`
 
-```bash
-azure group create --tags 'billing=quantum' dse eastus2
-```
 
-1. Execute the template:
-
-```bash
-azure group deployment create \
-  --template-file mainTemplate.json \
-  --parameters-file mainTemplateParameters.json \
-  dse dse
-```
 
 ## Cluster configuration
 
