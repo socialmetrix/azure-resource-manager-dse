@@ -1,10 +1,11 @@
 #!/bin/sh
 
-DATACENTER_NAME=rationale
+RESOURCE_GROUP_NAME=dse-staging
+DATACENTER_NAME=analytics
 
-azure group create --tags 'billing=quantum' ${DATACENTER_NAME} eastus2
+azure group create --tags 'billing=quantum' ${RESOURCE_GROUP_NAME} eastus2
 
 azure group deployment create \
   --template-file mainTemplate.json \
   --parameters-file mainTemplateParameters.json \
-  ${DATACENTER_NAME} ${DATACENTER_NAME}
+  ${RESOURCE_GROUP_NAME} ${DATACENTER_NAME}
