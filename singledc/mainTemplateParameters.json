@@ -18,15 +18,15 @@
     "value": "smxnetwork"
   },
   "subnetName": {
-    "value": "rationale"
+    "value": "dse"
   },
   "subnetOctets": {
-    "value": "10.3.50"
+    "value": "10.3.99"
   },
   "opscenterPublicName": {
-    "value": "opsrationale"
+    "value": "opscenterspark"
   },
   "datacenterName": {
-    "value": "rationale"
+    "value": "spark"
   }
 }

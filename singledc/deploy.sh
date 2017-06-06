@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DATACENTER_NAME=rationale
+DATACENTER_NAME=${1:-spark}
 
 azure group create --tags 'billing=quantum' ${DATACENTER_NAME} eastus2
 
