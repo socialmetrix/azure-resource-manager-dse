@@ -69,7 +69,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('opscenterMachineName'))]"
               },
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat(parameters('subnetOctets'), '.255')]",
+              "privateIPAddress": "[concat(parameters('subnetOctets'), '.4')]",
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
