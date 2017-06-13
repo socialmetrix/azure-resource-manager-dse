@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
+  "contentVersion": "2.0.0.0",
   "parameters": {
     "nodeCount": {
       "type": "int",
@@ -54,10 +54,16 @@
         "description": "Three first octets of the network, eg: 192.168.10"
       }
     },
-    "opscenterPublicName": {
+    "opscenterMachineName": {
       "type": "string",
       "metadata": {
-        "description": "Opscenter public name"
+        "description": "Opscenter Machine and Resources names"
+      }
+    },
+    "opscenterStorageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Opscenter Storage Account name"
       }
     },
     "datacenterName": {
@@ -152,8 +158,11 @@
           "location": {
             "value": "[variables('location')]"
           },
-          "opscenterPublicName": {
-            "value": "[parameters('opscenterPublicName')]"
+          "opscenterMachineName": {
+            "value": "[parameters('opscenterMachineName')]"
+          },
+          "opscenterStorageAccountName": {
+            "value": "[parameters('opscenterStorageAccountName')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
@@ -183,7 +192,7 @@
   "outputs": {
     "opsCenterURL": {
       "type": "string",
-      "value": "[concat('http://', parameters('opscenterPublicName') ,'.', variables('location'), '.cloudapp.azure.com:8888')]"
+      "value": "[concat('http://', parameters('opscenterStorageAccountName') ,'.', variables('location'), '.cloudapp.azure.com:8888')]"
     }
   }
 }

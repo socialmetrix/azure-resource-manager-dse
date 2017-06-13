@@ -1,20 +1,19 @@
 # Datastax Enterprise - Socialmetrix Deploy
 This is our current deploy template. Differences from official DSE are:
 
-- It creates 6 node machines, [edit here to change](https://github.com/socialmetrix/azure-resource-manager-dse/blob/feature/socialmetrix/singledc/mainTemplateParameters.json#L3)
+- It creates n node machines, [edit here to change](https://github.com/socialmetrix/azure-resource-manager-dse/blob/feature/socialmetrix/singledc/mainTemplateParameters.json#L3)
 - Each machine has a 1Tb Premium Storage attached
 - Networking is on a different Resource Group
 - Better naming convention and static IP assignment, following the rule:
 
 | VM name | IP |
 | --- | --- |
-| opscenter | 10.3.15.5 |
-| dc1vm0 | 10.3.15.100 |
-| dc1vm1 | 10.3.15.101 |
-| dc1vm2 | 10.3.15.102 |
-| dc1vm3 | 10.3.15.103 |
-| dc1vm4 | 10.3.15.104 |
-| dc1vm5 | 10.3.15.105 |
+| [opscenterName] | 10.3.15.255 |
+| [dcName]1 | 10.3.15.1 |
+| [dcName]2 | 10.3.15.2 |
+| [dcName]3 | 10.3.15.3 |
+| [dcName]4 | 10.3.15.4 |
+| [dcName]5 | 10.3.15.5 |
 
 
 ## Creating Machines

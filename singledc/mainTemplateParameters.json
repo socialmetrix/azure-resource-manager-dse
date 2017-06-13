@@ -1,6 +1,6 @@
 {
   "nodeCount": {
-    "value": 3
+    "value": 12
   },
   "vmSize": {
     "value": "Standard_L4s"
@@ -21,12 +21,15 @@
     "value": "dse"
   },
   "subnetOctets": {
-    "value": "10.3.99"
+    "value": "10.3.10"
   },
-  "opscenterPublicName": {
-    "value": "opscenterspark"
+  "opscenterMachineName": {
+    "value": "opscenter"
+  },
+  "opscenterStorageAccountName": {
+    "value": "smxdseopscenter"
   },
   "datacenterName": {
-    "value": "spark"
+    "value": "analytics"
   }
 }

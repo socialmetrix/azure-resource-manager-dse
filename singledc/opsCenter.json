@@ -5,7 +5,10 @@
     "location": {
       "type": "string"
     },
-    "opscenterPublicName": {
+    "opscenterMachineAccountName": {
+      "type": "string"
+    },
+    "opscenterStorageAccountName": {
       "type": "string"
     },
     "adminUsername": {
@@ -32,7 +35,7 @@
   },
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[concat('smx', parameters('opscenterPublicName'))]",
+    "storageAccountName": "[parameters('opscenterStorageAccountName')]",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
@@ -40,22 +43,22 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "opscenter",
+      "name": "[concat(parameters('opscenterMachineName'))]",
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('opscenterPublicName')]"
+          "domainNameLabel": "[parameters('opscenterMachineName')]"
         }
       }
     },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "opscenter",
+      "name": "[parameters('opscenterMachineName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "Microsoft.Network/publicIPAddresses/opscenter"
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('opscenterMachineName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -63,10 +66,10 @@
             "name": "ipconfig1",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'opscenter')]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('opscenterMachineName'))]"
               },
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat(parameters('subnetOctets'), '.5')]",
+              "privateIPAddress": "[concat(parameters('subnetOctets'), '.255')]",
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
@@ -87,10 +90,10 @@
     {
       "apiVersion": "2016-04-30-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "opscenter",
+      "name": "[parameters('opscenterMachineName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "Microsoft.Network/networkInterfaces/opscenter",
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('opscenterMachineName'))]",
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "properties": {
@@ -98,7 +101,7 @@
           "vmSize": "Standard_D1_v2"
         },
         "osProfile": {
-          "computerName": "opscenter",
+          "computerName": "[parameters('opscenterMachineName')]",
           "adminUsername": "[parameters('adminUsername')]",
           
           "linuxConfiguration": {
@@ -117,7 +120,7 @@
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-            "name": "opscenter-osdisk",
+            "name": "[concat(parameters('opscenterMachineName'), '-osdisk')]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
@@ -125,7 +128,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', 'opscenter')]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('opscenterMachineName'))]"
             }
           ]
         }
@@ -137,7 +140,7 @@
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "Microsoft.Compute/virtualMachines/opscenter"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('opscenterMachineName')]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
