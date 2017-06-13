@@ -38,7 +38,7 @@
   },
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[concat('smx', parameters('namespace'))]",
+    "storageAccountName": "[concat('smx', parameters('namespace')), 'storage']",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
