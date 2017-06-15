@@ -73,7 +73,7 @@
   },
   "variables": {
     "baseUrl": "https://raw.githubusercontent.com/socialmetrix/azure-resource-manager-dse/feature/managed_disks",
-    "templateUrl": "[concat(variables('baseUrl'), '/singledc/')]",
+    "templateUrl": "[concat(variables('baseUrl'), '/datacenter/')]",
     "nodesTemplateUrl": "[concat(variables('templateUrl'), 'nodes.json')]",
     "location": "[resourcegroup().location]",
     "vnetName": "[parameters('vnetName')]",
