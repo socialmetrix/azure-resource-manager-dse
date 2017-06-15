@@ -5,16 +5,16 @@
     "location": {
       "type": "string"
     },
-    "opscenterMachineName": {
-      "type": "string"
-    },
-    "opscenterStorageAccountName": {
-      "type": "string"
-    },
     "adminUsername": {
       "type": "string"
     },
     "sshKeyData": {
+      "type": "string"
+    },
+    "nodeCount": {
+      "type": "int"
+    },
+    "vmSize": {
       "type": "string"
     },
     "osSettings": {
@@ -29,47 +29,59 @@
     "subnetName": {
       "type": "string"
     },
-    "subnetOctets": {
+    "ipOffset":{
+      "type": "int"
+    },
+    "subnetOctets":{
       "type": "string"
-    }    
+    },
+    "namespace": {
+      "type": "string"
+    }
   },
   "variables": {
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[parameters('opscenterStorageAccountName')]",
+    "storageAccountName": "[concat('smx', parameters('namespace'), 'storage')]",
     "vnetId": "[resourceId(parameters('vnetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "subnetId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
   },
   "resources": [
     {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[concat(parameters('opscenterMachineName'))]",
+      "apiVersion": "2016-04-30-preview",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[parameters('namespace')]",
       "location": "[parameters('location')]",
       "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('opscenterMachineName')]"
-        }
+        "platformFaultDomainCount": 3,
+        "platformUpdateDomainCount": 18,
+        "managed": true
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageAccountName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "accountType": "Premium_LRS"
       }
     },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[parameters('opscenterMachineName')]",
+      "name": "[concat(parameters('namespace'), copyindex(1))]",
       "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('opscenterMachineName'))]"
-      ],
+      "copy": {
+        "name": "[concat(parameters('namespace'), 'nicLoop')]",
+        "count": "[parameters('nodeCount')]"
+      },
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipconfig1",
             "properties": {
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('opscenterMachineName'))]"
-              },
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat(parameters('subnetOctets'), '.4')]",
+              "privateIPAddress": "[concat(parameters('subnetOctets'), '.', add(parameters('ipOffset'), copyindex(1)))]",
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
@@ -79,30 +91,30 @@
       }
     },
     {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
-      "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
-      "properties": {
-        "accountType": "Premium_LRS"
-      }
-    },
-    {
       "apiVersion": "2016-04-30-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('opscenterMachineName')]",
+      "name": "[concat(parameters('namespace'), copyindex(1))]",
       "location": "[parameters('location')]",
+      "copy": {
+        "name": "[concat(parameters('namespace'), 'vmLoop')]",
+        "count": "[parameters('nodeCount')]"
+      },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('opscenterMachineName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('namespace'), copyindex(1))]",
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('namespace'))]",
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', concat(parameters('namespace')))]"
+        },
         "hardwareProfile": {
-          "vmSize": "Standard_D1_v2"
+          "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[parameters('opscenterMachineName')]",
+          "computerName": "[concat(parameters('namespace'), copyindex(1))]",
           "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "",
           
           "linuxConfiguration": {
             "disablePasswordAuthentication": true,
@@ -120,15 +132,23 @@
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-            "name": "[concat(parameters('opscenterMachineName'), '-osdisk')]",
+            "name": "[concat(parameters('namespace'), copyindex(1), '-osdisk')]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [
+            {
+             "name": "[concat(parameters('namespace'), copyindex(1), '-datadisk0')]",
+             "diskSizeGB": 1023,
+             "lun": 0,
+             "createOption": "Empty"
+            }
+         ]
         },
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('opscenterMachineName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('namespace'), copyindex(1)))]"
             }
           ]
         }
@@ -136,11 +156,15 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "opscenter/installopscenter",
+      "name": "[concat(parameters('namespace'), copyindex(1), '/installdsenode')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
+      "copy": {
+        "name": "[concat(parameters('namespace'), 'vmLoop')]",
+        "count": "[parameters('nodeCount')]"
+      },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('opscenterMachineName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), copyindex(1))]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
@@ -149,7 +173,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash opsCenter.sh ', parameters('location'), ' ', 'dummyValue')]"
+          "commandToExecute": "[concat('bash node.sh ', parameters('location'), ' ', 'dummyValue', ' ', parameters('namespace'), ' ', resourceGroup().location)]"
         }
       }
     }

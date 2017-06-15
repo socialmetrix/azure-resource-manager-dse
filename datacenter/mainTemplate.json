@@ -54,16 +54,13 @@
         "description": "Three first octets of the network, eg: 192.168.10"
       }
     },
-    "opscenterMachineName": {
-      "type": "string",
+    "ipOffset":{
+      "type": "int",
+      "defaultValue": 0,
+      "minValue": 0,
+      "maxValue": 255,
       "metadata": {
-        "description": "Opscenter Machine and Resources names"
-      }
-    },
-    "opscenterStorageAccountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Opscenter Storage Account name"
+        "description": "Base IP offset for the last octect."
       }
     },
     "datacenterName": {
@@ -77,9 +74,7 @@
   "variables": {
     "baseUrl": "https://raw.githubusercontent.com/socialmetrix/azure-resource-manager-dse/feature/managed_disks",
     "templateUrl": "[concat(variables('baseUrl'), '/singledc/')]",
-    "extensionUrl": "[concat(variables('baseUrl'), '/extensions/')]",
     "nodesTemplateUrl": "[concat(variables('templateUrl'), 'nodes.json')]",
-    "opsCenterTemplateUrl": "[concat(variables('templateUrl'), 'opsCenter.json')]",
     "location": "[resourcegroup().location]",
     "vnetName": "[parameters('vnetName')]",
     "subnetName": "[parameters('subnetName')]",
@@ -90,10 +85,7 @@
         "sku": "14.04.5-LTS",
         "version": "latest"
       },
-      "scripts": [
-        "[concat(variables('extensionUrl'), 'node.sh')]",
-        "[concat(variables('extensionUrl'), 'opsCenter.sh')]"
-      ]
+      "scripts": ["bootstrap-node.sh"]
     }
   },
   "resources": [
@@ -138,61 +130,15 @@
           "subnetOctets":{
             "value": "[parameters('subnetOctets')]"
           },
+          "ipOffset": {
+            "value": "[parameters('ipOffset')]"
+          },
           "namespace": {
             "value": "[parameters('datacenterName')]"
           }
         }
       }
-    },
-    {
-      "name": "opsCenter",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('opsCenterTemplateUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[variables('location')]"
-          },
-          "opscenterMachineName": {
-            "value": "[parameters('opscenterMachineName')]"
-          },
-          "opscenterStorageAccountName": {
-            "value": "[parameters('opscenterStorageAccountName')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "sshKeyData": {
-            "value": "[parameters('sshKeyData')]"
-          },
-          "osSettings": {
-            "value": "[variables('osSettings')]"
-          },
-          "vnetResourceGroup":{
-            "value": "[parameters('vnetResourceGroup')]"
-          },
-          "vnetName": {
-            "value": "[variables('vnetName')]"
-          },
-          "subnetName": {
-            "value": "[variables('subnetName')]"
-          },
-          "subnetOctets":{
-            "value": "[parameters('subnetOctets')]"
-          }
-        }
-      }
     }
   ],
-  "outputs": {
-    "opsCenterURL": {
-      "type": "string",
-      "value": "[concat('http://', parameters('opscenterStorageAccountName') ,'.', variables('location'), '.cloudapp.azure.com:8888')]"
-    }
-  }
+  "outputs": ""
 }

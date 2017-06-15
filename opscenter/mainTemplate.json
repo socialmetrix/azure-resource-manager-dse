@@ -1,0 +1,133 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_L4s",
+      "metadata": {
+        "description": "Size of virtual machine to provision for the cluster"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin user name for the virtual machines"
+      }
+    },
+    "sshKeyData": {
+      "type": "string",
+      "metadata": {
+        "description": "Public Key for ssh-user"
+      }
+    },
+    "vnetResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Vnet Resource Group"
+      }
+    },
+    "vnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Vnet Name"
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet Name"
+      }
+    },
+    "ip":{
+      "type": "string",
+      "metadata": {
+        "description": "The IP on which the PC will connect."
+      }
+    },
+    "machineName": {
+      "type": "string",
+      "metadata": {
+        "description": "Opscenter Machine and Resources names"
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Opscenter Storage Account name"
+      }
+    }
+  },
+  "variables": {
+    "baseUrl": "https://raw.githubusercontent.com/socialmetrix/azure-resource-manager-dse/feature/managed_disks",
+    "templateUrl": "[concat(variables('baseUrl'), '/singledc/')]",
+    "opsCenterTemplateUrl": "[concat(variables('templateUrl'), 'opsCenter.json')]",
+    "location": "[resourcegroup().location]",
+    "vnetName": "[parameters('vnetName')]",
+    "subnetName": "[parameters('subnetName')]",
+    "osSettings": {
+      "imageReference": {
+        "publisher": "Canonical",
+        "offer": "UbuntuServer",
+        "sku": "14.04.5-LTS",
+        "version": "latest"
+      },
+      "scripts": []
+    }
+  },
+  "resources": [
+    {
+      "name": "opsCenter",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('opsCenterTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmSize": {
+            "value": "[parameters('vmSize')]"
+          },
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "machineName": {
+            "value": "[parameters('machineName')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "sshKeyData": {
+            "value": "[parameters('sshKeyData')]"
+          },
+          "osSettings": {
+            "value": "[variables('osSettings')]"
+          },
+          "vnetResourceGroup":{
+            "value": "[parameters('vnetResourceGroup')]"
+          },
+          "vnetName": {
+            "value": "[variables('vnetName')]"
+          },
+          "subnetName": {
+            "value": "[variables('subnetName')]"
+          },
+          "ip":{
+            "value": "[parameters('ip')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "opsCenterURL": {
+      "type": "string",
+      "value": "[concat('http://', parameters('storageAccountName') ,'.', variables('location'), '.cloudapp.azure.com:8888')]"
+    }
+  }
+}

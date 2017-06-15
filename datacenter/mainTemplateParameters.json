@@ -23,11 +23,8 @@
   "subnetOctets": {
     "value": "10.3.10"
   },
-  "opscenterMachineName": {
-    "value": "opscenter"
-  },
-  "opscenterStorageAccountName": {
-    "value": "smxdseopscenter"
+  "ipOffset": {
+    "value": 100
   },
   "datacenterName": {
     "value": "analytics"
