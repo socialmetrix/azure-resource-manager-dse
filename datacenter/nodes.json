@@ -173,7 +173,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash node.sh ', parameters('location'), ' ', 'dummyValue', ' ', parameters('namespace'), ' ', resourceGroup().location)]"
+          "commandToExecute": "[concat('bash bootstrap-node.sh ', parameters('location'), ' ', 'dummyValue', ' ', parameters('namespace'), ' ', resourceGroup().location)]"
         }
       }
     }
