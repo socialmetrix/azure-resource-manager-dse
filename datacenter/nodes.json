@@ -139,7 +139,7 @@
           "dataDisks": [
             {
              "name": "[concat(parameters('namespace'), copyindex(1), '-datadisk0')]",
-             "diskSizeGB": 1023,
+             "diskSizeGB": 2047,
              "lun": 0,
              "createOption": "Empty"
             }
@@ -173,7 +173,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash bootstrap-node.sh ', parameters('location'), ' ', 'dummyValue', ' ', parameters('namespace'), ' ', resourceGroup().location)]"
+          "commandToExecute": "[concat('sudo bash bootstrap-node.sh ', parameters('location'), ' ', 'dummyValue', ' ', parameters('namespace'), ' ', resourceGroup().location)]"
         }
       }
     }
