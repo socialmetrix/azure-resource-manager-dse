@@ -153,29 +153,6 @@
           ]
         }
       }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('namespace'), copyindex(1), '/installdsenode')]",
-      "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
-      "copy": {
-        "name": "[concat(parameters('namespace'), 'vmLoop')]",
-        "count": "[parameters('nodeCount')]"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('namespace'), copyindex(1))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.4",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('sudo bash bootstrap-node.sh ', parameters('location'), ' ', 'dummyValue', ' ', parameters('namespace'), ' ', resourceGroup().location)]"
-        }
-      }
     }
   ],
   "outputs": {}
