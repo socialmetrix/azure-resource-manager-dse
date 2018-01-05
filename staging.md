@@ -54,7 +54,7 @@ seq 1 3 | xargs -P 3 -I% ssh staging% 'df |grep datadrive'
 
 ### Run ansible
 ```
-~/src/devops-ansible(develop)$ ansible-playbook pb-dse.yml --tags bootstrap-analytics
+~/src/devops-ansible(develop)$ ansible-playbook /home/smx/devops-ansible/pb-dse-staging.yml --tags bootstrap-analytics --limit staging1
 
 smx@staging1:~$ sudo service dse start
 smx@staging2:~$ sudo service dse start
